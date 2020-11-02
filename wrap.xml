@@ -4,7 +4,6 @@
     <requirement type="package">brs_libs</requirement>
   </requirements>
   <command detect_errors="exit_code"><![CDATA[
-    python -m brs_libs
     '$__tool_directory__/run.py' -sourcefile '$input_type.input' -input_format '$input_type.input_format' -target_sbml '$target_sbml' -output '$output'
   ]]></command>
   <inputs>
