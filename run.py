@@ -2,6 +2,11 @@
 
 from argparse import ArgumentParser
 from brs_libs import rpSBML
+from tarfile  import open       as tar_open
+from glob     import glob
+from os       import path       as os_path
+from tempfile import TemporaryDirectory
+
 
 if __name__ == "__main__":
     parser = ArgumentParser('Input source molecule')
@@ -12,8 +17,19 @@ if __name__ == "__main__":
     params = parser.parse_args()
 
 
-    if input_format == 'sbml':
+    if params.input_format == 'sbml':
         rpmerge = rpSBML.mergeSBMLFiles(params.sourcefile, params.target_sbml, params.output)
+    else:
+        with TemporaryDirectory() as tmpInputFolder:
+            with TemporaryDirectory() as tmpOutputFolder:
+                tar = tar_open(params.sourcefile, 'r')
+                tar.extractall(path=tmpInputFolder)
+                tar.close()
+                if len(glob(tmpInputFolder+'/*'))==0:
+                    print('*** ERROR: Input file is empty')
+                for sbml_file in glob(tmpInputFolder+'/*'):
+                    out_f = os_path.basename(params.sourcefile).split('.')[0]+'-'+os_path.basename(params.target_sbml).split('.')[0]
+                    rpmerge = rpSBML.mergeSBMLFiles(sbml_file, params.target_sbml, tmpOutputFolder+'/'+out_f)
 
     # with TemporaryDirectory() as tmpInputFolder:
     #     with TemporaryDirectory() as tmpOutputFolder:
@@ -45,4 +61,4 @@ if __name__ == "__main__":
     #                 info = tarfile.TarInfo(file_name+'_sbml.xml')
     #                 info.size = os_path.getsize(sbml_path)
     #                 ot.addfile(tarinfo=info, fileobj=open(sbml_path, 'rb'))
-    return True
+    # return True
