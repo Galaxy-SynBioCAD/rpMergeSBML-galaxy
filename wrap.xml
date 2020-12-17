@@ -1,7 +1,7 @@
 <tool id="rpMergeSBML" name="Merge SBML">
   <description>Merge one SBML file or collection with another SBML file</description>
   <requirements>
-    <requirement type="package">brs_libs</requirement>
+    <requirement type="package">rptools</requirement>
   </requirements>
   <command detect_errors="exit_code"><![CDATA[
     python3 '$__tool_directory__/run.py' -sourcefile '$input_type.input' -input_format '$input_type.input_format' -target_sbml '$target_sbml' -output '$output'

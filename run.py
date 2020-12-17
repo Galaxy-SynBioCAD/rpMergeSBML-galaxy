@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-from argparse import ArgumentParser
-from brs_libs import rpSBML
-from tarfile  import open       as tar_open
-from glob     import glob
-from os       import path       as os_path
-from tempfile import TemporaryDirectory
+from argparse        import ArgumentParser
+from rptools.rplibs  import rpSBML
+from tarfile         import open       as tar_open
+from glob            import glob
+from os              import path       as os_path
+from tempfile        import TemporaryDirectory
 
 
 if __name__ == "__main__":
